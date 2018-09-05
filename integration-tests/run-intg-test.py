@@ -604,7 +604,7 @@ def main():
 
         # setup_databases(db_names)
         intg_module_path = Path(workspace + "/" + product_id + "/" + 'tests/ballerina-integration-test')
-	os.makedirs(Path(workspace + "/" + product_id + "/" + 'distribution/zip/ballerina/target/'))
+        os.makedirs(Path(workspace + "/" + product_id + "/" + 'distribution/zip/ballerina/target/'))
         target_distribution_path = workspace + "/" + product_id + "/" + 'distribution/zip/ballerina/target/ballerina-0.981.2-SNAPSHOT.zip'
         shutil.copyfile(str(get_product_file_path()), target_distribution_path)
         # add_distribution_to_m2()
