@@ -613,7 +613,7 @@ def main():
         shutil.copyfile(str(get_product_file_path()), target_distribution_path)
         # add_distribution_to_m2()
         build_module(intg_module_path)
-        # save_log_files()
+        save_log_files()
         create_output_property_fle()
     except Exception as e:
         logger.error("Error occurred while running the run-intg.py script", exc_info=True)
