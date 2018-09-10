@@ -605,6 +605,8 @@ def main():
         # setup_databases(db_names)
         module_path = Path(workspace + "/" + product_id + "/" + 'tests/ballerina-integration-test-utils')
         build_module(module_path)
+        module_path = Path(workspace + "/" + product_id + "/" + 'tests/observability-test-utils')
+        build_module(module_path)
         intg_module_path = Path(workspace + "/" + product_id + "/" + 'tests/ballerina-integration-test')
         os.makedirs(Path(workspace + "/" + product_id + "/" + 'distribution/zip/ballerina/target/'))
         target_distribution_path = workspace + "/" + product_id + "/" + 'distribution/zip/ballerina/target/ballerina-0.981.2-SNAPSHOT.zip'
@@ -612,7 +614,7 @@ def main():
         # add_distribution_to_m2()
         build_module(intg_module_path)
         # save_log_files()
-        # create_output_property_fle()
+        create_output_property_fle()
     except Exception as e:
         logger.error("Error occurred while running the run-intg.py script", exc_info=True)
     except BaseException as e:
