@@ -30,7 +30,7 @@ LIB_PATH = "repository/components/lib"
 DISTRIBUTION_PATH = {"product-apim": "modules/distribution/product/target",
                      "product-is": "modules/distribution/target",
                      "product-ei": "modules/distribution/target",
-                     "product-ballerina": "modules/distribution/zip/ballerina/target"}
+                     "ballerina-lang": "modules/distribution/zip/ballerina/target"}
 PRODUCT_STORAGE_DIR_NAME = "storage"
 TEST_PLAN_PROPERTY_FILE_NAME = "testplan-props.properties"
 INFRA_PROPERTY_FILE_NAME = "infrastructure.properties"
@@ -41,7 +41,7 @@ MYSQL_DB_ENGINE = "MYSQL"
 DEFAULT_ORACLE_SID = "orcl"
 DEFAULT_DB_USERNAME = "wso2carbon"
 LOG_STORAGE = "logs"
-LOG_FILE_PATHS = {"product-ballerina": [
+LOG_FILE_PATHS = {"ballerina-lang": [
     "tests/ballerina-integration-test/target/surefire-reports/emailable-report.html",
     "tests/ballerina-integration-test/target/surefire-reports/index.html",
     "tests/ballerina-integration-test/target/surefire-reports/TEST-TestSuite.xml",
