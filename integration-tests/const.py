@@ -30,7 +30,7 @@ LIB_PATH = "repository/components/lib"
 DISTRIBUTION_PATH = {"product-apim": "modules/distribution/product/target",
                      "product-is": "modules/distribution/target",
                      "product-ei": "modules/distribution/target",
-                     "ballerina-lang": "modules/distribution/zip/ballerina/target"}
+                     "ballerina-lang": "distribution/zip/ballerina/target"}
 PRODUCT_STORAGE_DIR_NAME = "storage"
 TEST_PLAN_PROPERTY_FILE_NAME = "testplan-props.properties"
 INFRA_PROPERTY_FILE_NAME = "infrastructure.properties"

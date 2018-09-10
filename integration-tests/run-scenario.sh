@@ -178,8 +178,8 @@ else
   ssh -o StrictHostKeyChecking=no -i ${key_pem} ${user}@${host} bash ${REM_DIR}/intg-test-runner.sh --wd ${REM_DIR}
 
   #Get the reports from integration test
-  scp -o StrictHostKeyChecking=no -r -i ${key_pem} ${user}@${host}:${REM_DIR}/ballerinatestrepo/ballerina-lang/tests/ballerina-integration-test/target/surefire-reports ${DIR}
-  scp -o StrictHostKeyChecking=no -r -i ${key_pem} ${user}@${host}:${REM_DIR}/ballerinatestrepo/ballerina-lang/tests/ballerina-integration-test/target/logs/automation.log ${DIR}
+  scp -o StrictHostKeyChecking=no -r -i ${key_pem} ${user}@${host}:${REM_DIR}/ballerina-lang/tests/ballerina-integration-test/target/surefire-reports ${DIR}
+  #scp -o StrictHostKeyChecking=no -r -i ${key_pem} ${user}@${host}:${REM_DIR}/ballerinatestrepo/ballerina-lang/tests/ballerina-integration-test/target/logs/automation.log ${DIR}
   scp -o StrictHostKeyChecking=no -r -i ${key_pem} ${user}@${host}:${REM_DIR}/output.properties ${DIR}
   echo "=== Reports are copied success ==="
 fi
