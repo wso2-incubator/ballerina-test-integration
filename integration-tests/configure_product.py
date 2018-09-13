@@ -45,10 +45,10 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-# class ZipFileLongPaths(ZipFile):
-#     def _extract_member(self, member, targetpath, pwd):
-#         targetpath = winapi_path(targetpath)
-#         return ZipFile._extract_member(self, member, targetpath, pwd)
+class ZipFileLongPaths(ZipFile):
+    def _extract_member(self, member, targetpath, pwd):
+        targetpath = winapi_path(targetpath)
+        return ZipFile._extract_member(self, member, targetpath, pwd)
 
 
 def winapi_path(dos_path, encoding=None):
