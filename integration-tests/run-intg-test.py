@@ -18,12 +18,10 @@ import os
 import re
 import shutil
 import subprocess
-# importing required modules
 import sys
 import configure_product as cp
 from pathlib import Path
 from subprocess import Popen, PIPE
-# from pathlib import Path
 import urllib.request as urllib2
 from xml.dom import minidom
 from xml.etree import ElementTree as ET
@@ -499,9 +497,7 @@ def     get_latest_released_dist():
     relative_path = get_relative_path_of_dist_storage(latest_product_release_api + "xml")
     if relative_path is None:
         raise Exception("Error occured while getting relative path")
-    dist_downl_url = latest_product_release_api.split('/api')[0] + "/artifact/" + relative_path
-    # download the last released pack from Jenkins
-    # urllib.request.urlretrieve(url, str(get_product_file_path()))
+    dist_downl_url = latest_product_release_api.split('/api')[0] + "/artifact/" + relative_path    
     download_file(dist_downl_url, str(get_product_file_path()))
     logger.info('downloading the latest released pack from Jenkins is completed.')
 
@@ -571,8 +567,6 @@ def main():
             raise Exception(
                 "Property file doesn't have mandatory key-value pair. Please verify the content of the property file "
                 "and the format")
-        # construct database configuration
-        # construct_db_config()
         # clone the repository
         clone_repo()
 
