@@ -40,7 +40,7 @@ os=`cat ${FILE2} | grep -w "$PROP_OS" ${FILE1} | cut -d'=' -f2`
 #user=`cat ${FILE2} | grep -w "$PROP_USER" ${FILE1} ${FILE2} | cut -d'=' -f2`
 instance_id=`cat ${FILE2} | grep -w "$PROP_INSTANCE_ID" ${FILE1} ${FILE2} | cut -d'=' -f2`
 user=''
-password='wso2123'
+password=''
 host=`grep -w "$PROP_HOST" ${FILE1} ${FILE2} | cut -d'=' -f2`
 CONNECT_RETRY_COUNT=20
 
@@ -151,8 +151,7 @@ if [ "${os}" = "Windows" ]; then
   sshpass -p "${password}" ssh -o StrictHostKeyChecking=no ${user}@${host} "${REM_DIR}/${FILE8}" ${REM_DIR}
   echo "=== End of execution ==="
   echo "Retrieving reports from instance.. "
-  sshpass -p "${password}" scp -r -q -o StrictHostKeyChecking=no ${user}@${host}:${REM_DIR}/ballerinatestrepo/ballerina-lang/tests/ballerina-integration-test/target/surefire-reports ${DIR}
-  #sshpass -p "${password}" scp -q -o StrictHostKeyChecking=no ${user}@${host}:${REM_DIR}/product-apim/modules/integration/tests-integration/tests-backend/target/logs/automation.log ${DIR}
+  sshpass -p "${password}" scp -r -q -o StrictHostKeyChecking=no ${user}@${host}:${REM_DIR}/ballerinatestrepo/ballerina-lang/tests/ballerina-integration-test/target/surefire-reports ${DIR}  
   sshpass -p "${password}" scp -q -o StrictHostKeyChecking=no ${user}@${host}:${REM_DIR}/output.properties ${DIR}
   echo "=== Reports retrieved successfully ==="
   set -o xtrace
