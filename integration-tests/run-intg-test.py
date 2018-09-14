@@ -595,8 +595,7 @@ def main():
             # todo after identify specific steps that are related to WUM, add them to here
             dist_name = get_dist_name()
             logger.info("WUM specific steps are empty")
-
-        # setup_databases(db_names)
+        
         intg_utils_module_path = Path(workspace + "/" + product_id + "/" + 'tests/ballerina-integration-test-utils')
         build_module(intg_utils_module_path)
         observ_test_module_path = Path(workspace + "/" + product_id + "/" + 'tests/observability-test-utils')
