@@ -31,7 +31,7 @@ import sqlparse
 import wget
 
 from const import TEST_PLAN_PROPERTY_FILE_NAME, INFRA_PROPERTY_FILE_NAME, LOG_FILE_NAME, DB_META_DATA, \
-    PRODUCT_STORAGE_DIR_NAME, DEFAULT_DB_USERNAME, LOG_STORAGE, LOG_FILE_PATHS, DIST_POM_PATH, NS, ZIP_FILE_EXTENSION
+    PRODUCT_STORAGE_DIR_NAME, DEFAULT_DB_USERNAME, LOG_STORAGE, LOG_FILE_PATHS, DIST_POM_PATH, NS, ZIP_FILE_EXTENSION, DISTRIBUTION_PATH, MODULE_PATHS
 
 git_repo_url = None
 git_branch = None
@@ -123,9 +123,7 @@ def read_proprty_files():
 
 
 def validate_property_readings():
-    missing_values = ""
-    if db_engine is None:
-        missing_values += " -DBEngine- "
+    missing_values = ""    
     if git_repo_url is None:
         missing_values += " -PRODUCT_GIT_URL- "
     if product_id is None:
@@ -136,17 +134,20 @@ def validate_property_readings():
         missing_values += " -LATEST_PRODUCT_RELEASE_API- "
     if latest_product_build_artifacts_api is None:
         missing_values += " -LATEST_PRODUCT_BUILD_ARTIFACTS_API- "
-    if sql_driver_location is None:
-        missing_values += " -SQL_DRIVERS_LOCATION_<OS_Type>- "
-    if db_host is None:
-        missing_values += " -DatabaseHost- "
-    if db_port is None:
-        missing_values += " -DatabasePort- "
-    if db_password is None:
-        missing_values += " -DBPassword- "
     if test_mode is None:
-        missing_values += " -TEST_MODE- "
-
+        missing_values += " -TEST_MODE- "        
+    if (product_id != 'ballerina-lang'):          
+        if db_engine is None:
+            missing_values += " -DBEngine- "
+        if sql_driver_location is None:
+            missing_values += " -SQL_DRIVERS_LOCATION_<OS_Type>- "
+        if db_host is None:
+            missing_values += " -DatabaseHost- "
+        if db_port is None:
+            missing_values += " -DatabasePort- "
+        if db_password is None:
+            missing_values += " -DBPassword- " 
+    
     if missing_values != "":
         logger.error('Invalid property file is found. Missing values: %s ', missing_values)
         return False
@@ -553,6 +554,20 @@ def replace_file(source, destination):
         destination = cp.winapi_path(destination)
     shutil.move(source, destination)
 
+def build_source(source_path):
+    """Build the product-source.
+    """
+    logger.info('Building the source skipping tests')
+    if sys.platform.startswith('win'):
+        subprocess.call(['mvn', 'clean', 'install', '-B', '-e',
+                         '-Dmaven.test.skip=true'],
+                        shell=True, cwd=source_path)
+    else:
+        subprocess.call(['mvn', 'clean', 'install', '-B', '-e',
+                         '-Dmaven.test.skip=true'],
+                        cwd=source_path)
+    logger.info('Module build is completed. Module: ' + str(source_path))
+
 
 def main():
     try:
@@ -587,24 +602,22 @@ def main():
         elif test_mode == "RELEASE":
             checkout_to_tag(get_latest_tag_name(product_id))
             dist_name = get_dist_name()
-            get_latest_released_dist()
+            source_path = Path(workspace + "/" + product_id)
+            build_source(source_path)            
         elif test_mode == "SNAPSHOT":
             dist_name = get_dist_name()
             get_latest_stable_dist()
-        elif test_mode == "WUM":
-            # todo after identify specific steps that are related to WUM, add them to here
-            dist_name = get_dist_name()
-            logger.info("WUM specific steps are empty")
-        
-        intg_utils_module_path = Path(workspace + "/" + product_id + "/" + 'tests/ballerina-integration-test-utils')
+                
+        intg_utils_module_path = Path(workspace + "/" + product_id + "/" + MODULE_PATHS[product_id][0])
         build_module(intg_utils_module_path)
-        observ_test_module_path = Path(workspace + "/" + product_id + "/" + 'tests/observability-test-utils')
+        observ_test_module_path = Path(workspace + "/" + product_id + "/" + MODULE_PATHS[product_id][1])
         build_module(observ_test_module_path)
-        intg_module_path = Path(workspace + "/" + product_id + "/" + 'tests/ballerina-integration-test')        
-        source = Path(workspace + "/" + product_id + "/" + 'distribution/zip/ballerina/target/')
-        os.makedirs(source)
-        target_distribution_path = str(source)
-        shutil.copy(str(get_product_file_path()), target_distribution_path)        
+        intg_module_path = Path(workspace + "/" + product_id + "/" + MODULE_PATHS[product_id][2])
+        if (test_mode != "RELEASE"):        
+            source = Path(workspace + "/" + product_id + "/" + DISTRIBUTION_PATH[product_id])
+            os.makedirs(source)
+            target_distribution_path = str(source)
+            shutil.copy(str(get_product_file_path()), target_distribution_path)        
         build_module(intg_module_path)
         save_log_files()
         create_output_property_fle()
