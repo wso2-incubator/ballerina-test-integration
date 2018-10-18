@@ -151,7 +151,7 @@ if [ "${os}" = "Windows" ]; then
   sshpass -p "${password}" ssh -o StrictHostKeyChecking=no ${user}@${host} "${REM_DIR}/${FILE8}" ${REM_DIR}
   echo "=== End of execution ==="
   echo "Retrieving reports from instance.. "
-  sshpass -p "${password}" scp -r -q -o StrictHostKeyChecking=no ${user}@${host}:${REM_DIR}/ballerinatestrepo/ballerina-lang/tests/ballerina-integration-test/target/surefire-reports ${DIR}  
+  sshpass -p "${password}" scp -r -q -o StrictHostKeyChecking=no ${user}@${host}:${REM_DIR}/ballerina-lang/tests/ballerina-integration-test/target/surefire-reports ${DIR}  
   sshpass -p "${password}" scp -q -o StrictHostKeyChecking=no ${user}@${host}:${REM_DIR}/output.properties ${DIR}
   echo "=== Reports retrieved successfully ==="
   set -o xtrace
